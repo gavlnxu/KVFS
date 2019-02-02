@@ -16,6 +16,10 @@ type KVForFile struct {
 	running  bool
 }
 
+var (
+	stopRunning = errors.New("running is false ")
+)
+
 func __ensurePath(p string) error {
 	if fi, err := os.Stat(p); err != nil {
 		if os.IsNotExist(err) {
@@ -30,6 +34,9 @@ func __ensurePath(p string) error {
 }
 
 func (f *KVForFile) Set(k string, v interface{}) error {
+	if !f.running {
+		return stopRunning
+	}
 	val := f.Get(k)
 	if val != nil && f.readonly {
 		return errors.New("readonly")
@@ -52,6 +59,9 @@ func (f *KVForFile) __hash(k string) string {
 }
 
 func (f *KVForFile) Get(k string) (ret interface{}) {
+	if !f.running {
+		return stopRunning
+	}
 	if data, err := ioutil.ReadFile(f.path + "/" + f.__hash(k)); err == nil {
 		var v [2]interface{}
 		if json.Unmarshal(data, &v) == nil {
@@ -79,10 +89,14 @@ func (f *KVForFile) Increment(callback func(k string, v interface{})) {
 	}
 }
 
-func (f *KVForFile) Del(k string) {
+func (f *KVForFile) Del(k string) error {
+	if !f.running {
+		return stopRunning
+	}
 	if !f.readonly {
 		os.Remove(f.path + "/" + f.__hash(k))
 	}
+	return nil
 }
 
 func (f *KVForFile) Cls() error {
