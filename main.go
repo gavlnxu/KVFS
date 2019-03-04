@@ -30,5 +30,4 @@ func main() {
 	f.Del("Hello")
 	// empty the directory, will remove directory
 	f.Cls()
-	f.Close()
 }
