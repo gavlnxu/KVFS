@@ -1,8 +1,8 @@
 package main
 
 import (
-	"KVFS/core"
 	"fmt"
+	"github.com/Gvinaxu/KVFS/core"
 )
 
 type T struct {
