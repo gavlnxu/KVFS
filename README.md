@@ -5,4 +5,4 @@ Features:
 - Support create a directory on a single node
 - Support Multi-thread, Multi-process
 
-`go get github.com/Gvinaxu/KVFS`
+`go get github.com/gavlnxu/KVFS`
