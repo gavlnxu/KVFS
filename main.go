@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Gvinaxu/KVFS/core"
+	"github.com/gavlnxu/KVFS/core"
 )
 
 type T struct {
